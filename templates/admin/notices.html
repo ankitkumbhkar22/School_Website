@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Notices | Admin{% endblock %}
+
+{% block content %}
+  <div class="min-h-screen bg-slate-900 text-white py-10 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-black">Notices</h1>
+          <p class="text-sm text-slate-300 mt-1">Add, edit, or delete updates shown on the homepage.</p>
+        </div>
+        <div class="flex gap-3">
+          <a href="{{ url_for('admin_dashboard') }}" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-sm font-bold">
+            Dashboard
+          </a>
+          <a href="{{ url_for('admin_logout') }}" class="px-4 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 text-sm font-bold">
+            Logout
+          </a>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div class="lg:col-span-2 rounded-3xl bg-white/5 border border-white/10 p-6">
+          {% if editing_notice %}
+            <h2 class="text-lg font-black mb-2">Edit Notice</h2>
+            <form method="POST" action="{{ url_for('admin_notices_edit_post', notice_id=editing_notice['id']) }}" class="space-y-4">
+              <div>
+                <label class="text-xs font-bold uppercase tracking-widest text-slate-300">Title</label>
+                <input name="title" class="mt-2 w-full rounded-2xl px-4 py-3 bg-slate-950/30 border border-white/10 outline-none focus:border-[#fbbf24]" value="{{ editing_notice['title'] }}" required />
+              </div>
+              <div>
+                <label class="text-xs font-bold uppercase tracking-widest text-slate-300">Publish Date</label>
+                <input type="date" name="publish_date" class="mt-2 w-full rounded-2xl px-4 py-3 bg-slate-950/30 border border-white/10 outline-none focus:border-[#fbbf24]" value="{{ editing_notice['publish_date'] }}" required />
+              </div>
+              <div>
+                <label class="text-xs font-bold uppercase tracking-widest text-slate-300">Body</label>
+                <textarea name="body" class="mt-2 w-full rounded-2xl px-4 py-3 bg-slate-950/30 border border-white/10 outline-none focus:border-[#fbbf24]" rows="4">{{ editing_notice['body'] }}</textarea>
+              </div>
+              <div class="flex gap-3">
+                <button type="submit" class="flex-1 bg-[#fbbf24] text-[#0f172a] py-3 rounded-2xl font-black hover:scale-[1.01] transition">
+                  Save Changes
+                </button>
+                <a href="{{ url_for('admin_notices') }}" class="bg-white/10 hover:bg-white/20 border border-white/10 text-white py-3 px-4 rounded-2xl font-black">
+                  Cancel
+                </a>
+              </div>
+            </form>
+          {% else %}
+            <h2 class="text-lg font-black mb-2">Add Notice</h2>
+            <form method="POST" action="{{ url_for('admin_notices_new') }}" class="space-y-4">
+              <div>
+                <label class="text-xs font-bold uppercase tracking-widest text-slate-300">Title</label>
+                <input name="title" class="mt-2 w-full rounded-2xl px-4 py-3 bg-slate-950/30 border border-white/10 outline-none focus:border-[#fbbf24]" placeholder="e.g. Annual Examination Results" required />
+              </div>
+              <div>
+                <label class="text-xs font-bold uppercase tracking-widest text-slate-300">Publish Date</label>
+                <input type="date" name="publish_date" class="mt-2 w-full rounded-2xl px-4 py-3 bg-slate-950/30 border border-white/10 outline-none focus:border-[#fbbf24]" required />
+              </div>
+              <div>
+                <label class="text-xs font-bold uppercase tracking-widest text-slate-300">Body</label>
+                <textarea name="body" class="mt-2 w-full rounded-2xl px-4 py-3 bg-slate-950/30 border border-white/10 outline-none focus:border-[#fbbf24]" rows="4" placeholder="Short description shown under the title."></textarea>
+              </div>
+              <button type="submit" class="w-full bg-[#fbbf24] text-[#0f172a] py-3 rounded-2xl font-black hover:scale-[1.01] transition">
+                Add Notice
+              </button>
+            </form>
+          {% endif %}
+        </div>
+
+        <div class="lg:col-span-3 rounded-3xl bg-white/5 border border-white/10 p-6">
+          <h2 class="text-lg font-black mb-4">Existing Notices</h2>
+          {% if notices %}
+            <div class="overflow-auto rounded-2xl border border-white/10">
+              <table class="min-w-full text-sm">
+                <thead class="bg-white/5 text-slate-300">
+                  <tr>
+                    <th class="text-left px-4 py-3">Title</th>
+                    <th class="text-left px-4 py-3">Publish Date</th>
+                    <th class="text-left px-4 py-3">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for n in notices %}
+                    <tr class="border-t border-white/5">
+                      <td class="px-4 py-3 font-bold">{{ n['title'] }}</td>
+                      <td class="px-4 py-3 text-slate-300">{{ n['publish_date'] }}</td>
+                      <td class="px-4 py-3">
+                        <div class="flex flex-wrap gap-2">
+                          <a href="{{ url_for('admin_notices_edit', notice_id=n['id']) }}" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-xs font-bold">
+                            Edit
+                          </a>
+                          <form method="POST" action="{{ url_for('admin_notices_delete', notice_id=n['id']) }}" onsubmit="return confirm('Delete this notice?')">
+                            <button type="submit" class="px-3 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 text-xs font-bold">
+                              Delete
+                            </button>
+                          </form>
+                        </div>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% else %}
+            <p class="text-slate-300 text-sm">No notices in the database yet.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

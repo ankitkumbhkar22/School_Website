@@ -1,0 +1,549 @@
+{% extends 'base.html' %}
+
+{% block title %}Home | Friends Public H.S. School{% endblock %}
+
+{% block extra_head %}
+<style>
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    font-size: 14px;
+  }
+
+  :root {
+    --primary: #0f172a;
+    --accent: #fbbf24;
+  }
+
+  /* Compact Typography Fixes */
+  h1 {
+    line-height: 1.1;
+  }
+
+  h3 {
+    font-size: 1.75rem !important;
+  }
+
+  p {
+    line-height: 1.6;
+  }
+
+  .nav-text {
+    font-size: 12px !important;
+    letter-spacing: 1px;
+  }
+
+  /* Navbar Glassmorphism */
+  .nav-glass {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px);
+    padding: 8px 0 !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  html.dark .nav-glass {
+    background: rgba(15, 23, 42, 0.9) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  /* Hero Slider */
+  .slide {
+    display: none;
+    overflow: hidden;
+  }
+
+  .slide.active {
+    display: block;
+  }
+
+  .slide img {
+    animation: kenburns 12s infinite alternate;
+    filter: brightness(0.5);
+  }
+
+  @keyframes kenburns {
+    from {
+      transform: scale(1);
+    }
+
+    to {
+      transform: scale(1.1);
+    }
+  }
+
+  /* Hover Effects */
+  .feature-card {
+    transition: all 0.4s ease;
+    border: 1px solid #f1f5f9;
+  }
+
+  html.dark .feature-card {
+    border-color: #334155;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    border-color: var(--accent);
+  }
+
+  #mobile-menu {
+    transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+  }
+
+  @keyframes gradientToggle {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradientToggle 15s ease infinite;
+  }
+
+  /* Notice Board Aurora */
+  @keyframes orb1 {
+    0% {
+      transform: translate(0px, 0px) scale(1);
+    }
+
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+  }
+
+  @keyframes orb2 {
+    0% {
+      transform: translate(0px, 0px) scale(1);
+    }
+
+    33% {
+      transform: translate(-50px, -30px) scale(1.2);
+    }
+
+    66% {
+      transform: translate(20px, -20px) scale(0.8);
+    }
+
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+  }
+
+  @keyframes orb3 {
+    0% {
+      transform: translate(0px, 0px) scale(1);
+    }
+
+    33% {
+      transform: translate(30px, 30px) scale(1.1);
+    }
+
+    66% {
+      transform: translate(-30px, -30px) scale(0.9);
+    }
+
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+  }
+
+  .animate-orb-1 {
+    animation: orb1 15s infinite ease-in-out;
+  }
+
+  .animate-orb-2 {
+    animation: orb2 18s infinite ease-in-out;
+  }
+
+  .animate-orb-3 {
+    animation: orb3 20s infinite ease-in-out;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<header class="relative h-[520px] sm:h-[600px] lg:h-[650px] overflow-hidden bg-[#0f172a]">
+  <div class="slide active absolute inset-0">
+    <img src="{{ url_for('static', filename='images/slide2.jpeg') }}" class="w-full h-full object-cover opacity-80"
+      alt="" />
+    <div class="absolute inset-0 bg-black/50 z-0"></div>
+    <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-10">
+      <span class="text-[#fbbf24] font-bold tracking-[0.3em] text-[10px] sm:text-xs mb-4 block reveal-up">ESTABLISHED
+        2005</span>
+      <h1 class="font-black text-white mb-6 reveal-up text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+        Education With <br /><span class="text-[#fbbf24]">Discipline</span>
+      </h1>
+      <p class="max-w-xl text-slate-200 opacity-90 text-sm sm:text-base md:text-lg mb-8 reveal-up">
+        Friends Public H.S. School: Where every child is a star in the making. We nurture talent with moral values.
+      </p>
+      <div class="flex gap-4 reveal-up">
+        <button
+          class="bg-[#fbbf24] text-[#0f172a] px-7 sm:px-8 py-3.5 rounded-xl font-bold text-sm hover:scale-105 transition shadow-xl">
+          START JOURNEY
+        </button>
+        <button
+          class="border border-white/30 backdrop-blur-md text-white px-7 sm:px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-white hover:text-[#0f172a] transition">
+          EXPLORE SCHOOL
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="slide absolute inset-0">
+    <img src="{{ url_for('static', filename='images/sliding.jpeg') }}" class="w-full h-full object-cover opacity-80"
+      alt="" />
+    <div class="absolute inset-0 bg-black/50 z-0"></div>
+    <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-10">
+      <h1 class="font-black text-white mb-6 text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+        Friends Public H.S. School <br /><span class="text-[#fbbf24]">Guradiya Verma</span>
+      </h1>
+      <p class="max-w-xl text-slate-200 opacity-90 text-sm sm:text-base md:text-lg mb-8">
+        Empowering the next generation with smart learning environments.
+      </p>
+      <a href="{{ url_for('admission') }}">
+        <button
+          class="bg-white text-[#0f172a] px-7 sm:px-8 py-3.5 rounded-xl font-bold text-sm shadow-xl hover:bg-[#fbbf24] transition">
+          APPLY NOW
+        </button>
+      </a>
+    </div>
+  </div>
+
+  <div class="absolute bottom-8 right-8 flex gap-3 z-20">
+    <button onclick="changeSlide(-1)"
+      class="w-11 h-11 rounded-full border border-white/20 text-white hover:bg-[#fbbf24] hover:text-[#0f172a] transition flex items-center justify-center text-sm">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <button onclick="changeSlide(1)"
+      class="w-11 h-11 rounded-full border border-white/20 text-white hover:bg-[#fbbf24] hover:text-[#0f172a] transition flex items-center justify-center text-sm">
+      <i class="fas fa-arrow-right"></i>
+    </button>
+  </div>
+</header>
+
+<!-- Premium Animated Section Wrapper -->
+<div
+  class="relative w-full overflow-hidden bg-gradient-to-br from-white via-slate-50 to-white dark:from-[#020617] dark:via-[#0f172a] dark:to-[#020617] animate-gradient transition-colors duration-700">
+  <!-- Interactive Canvas Container -->
+  <canvas id="premium-bg-canvas" class="absolute inset-0 z-0 pointer-events-none w-full h-full"></canvas>
+
+  <section class="py-24 max-w-7xl mx-auto px-6 relative z-10">
+    <div class="text-center mb-16 reveal-up">
+      <h2 class="text-[#0f172a] dark:text-white font-black mb-2 transition-colors duration-300">Why Friends Public?</h2>
+      <div class="w-16 h-1 bg-[#fbbf24] mx-auto rounded-full"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="feature-card bg-white dark:bg-slate-800 p-10 rounded-[30px] shadow-sm text-center">
+        <div
+          class="w-16 h-16 bg-yellow-50 dark:bg-yellow-500/10 text-yellow-500 rounded-2xl flex items-center justify-center mx-auto mb-6 transform rotate-3">
+          <i class="fas fa-brain text-xl"></i>
+        </div>
+        <h4 class="font-bold mb-3 text-[#0f172a] dark:text-white text-lg">Personality Development</h4>
+        <p class="text-slate-500 dark:text-slate-400 text-sm">Communication skills<br> Leadership <br>Confidence
+          building.
+        </p>
+      </div>
+      <div
+        class="feature-card bg-[#0f172a] dark:bg-slate-900 border border-transparent dark:border-slate-700 p-10 rounded-[30px] shadow-xl text-center">
+        <div class="w-16 h-16 bg-[#fbbf24] text-[#0f172a] rounded-2xl flex items-center justify-center mx-auto mb-6">
+          <i class="fas fa-medal text-xl"></i>
+        </div>
+        <h4 class="font-bold mb-3 text-white text-lg">Sports Excellence</h4>
+        <p class="text-slate-300 text-sm">Promoting physical health through various outdoor arenas and professional
+          coaching.</p>
+      </div>
+      <div class="feature-card bg-white dark:bg-slate-800 p-10 rounded-[30px] shadow-sm text-center">
+        <div
+          class="w-16 h-16 bg-amber-50 dark:bg-amber-500/10 text-[#fbbf24] rounded-2xl flex items-center justify-center mx-auto mb-6 transform -rotate-3">
+          <i class="fas fa-user-graduate text-xl"></i>
+        </div>
+        <h4 class="font-bold mb-3 text-[#0f172a] dark:text-white text-lg">Expert Faculty</h4>
+        <p class="text-slate-500 dark:text-slate-400 text-sm">Guidance by highly qualified educators dedicated to growth
+          and character building.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Notice Board Aurora Mesh Wrapper -->
+<div class="relative w-full overflow-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+
+  <!-- Glowing Aurora / Mesh Layer -->
+  <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+    <!-- Orb 1 (Top Left - Yellow Accent) -->
+    <div
+      class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#fbbf24]/20 dark:bg-[#fbbf24]/10 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[100px] animate-orb-1">
+    </div>
+    <!-- Orb 2 (Bottom Right - Soft Blue / Neon Purple) -->
+    <div
+      class="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-blue-300/30 dark:bg-purple-600/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[120px] animate-orb-2">
+    </div>
+    <!-- Orb 3 (Middle - Sky Blue) -->
+    <div
+      class="absolute top-[20%] left-[20%] w-[50%] h-[50%] bg-sky-200/40 dark:bg-sky-500/10 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[90px] animate-orb-3">
+    </div>
+  </div>
+
+  <section class="py-24 px-6 relative z-10 w-full border-t border-transparent">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative">
+      <div class="reveal-left">
+        <h3 class="font-black text-[#0f172a] dark:text-white mb-10 flex items-center gap-3">
+          <span class="w-1.5 h-7 bg-red-500 rounded-full"></span> Notice Board
+        </h3>
+        <div class="space-y-5">
+          {% if notices %}
+          {% for notice in notices %}
+          <div
+            class="bg-white dark:bg-slate-800 p-6 rounded-2xl flex items-center gap-6 shadow-sm border border-transparent hover:border-[#fbbf24] dark:hover:border-[#fbbf24] transition cursor-pointer group">
+            <div class="bg-[#0f172a] dark:bg-slate-900 text-center p-3 rounded-xl min-w-[70px]">
+              <span class="block text-xl font-bold text-[#fbbf24]">
+                {{ notice.publish_date.strftime('%d') if notice.publish_date else '' }}
+              </span>
+              <span class="block text-[9px] font-bold text-white uppercase">
+                {{ notice.publish_date.strftime('%b').upper() if notice.publish_date else '' }}
+              </span>
+            </div>
+            <div>
+              <p
+                class="text-[#0f172a] dark:text-white font-bold text-base group-hover:text-blue-700 dark:group-hover:text-[#fbbf24] transition-colors">
+                {{ notice.title }}
+              </p>
+              <span class="text-[11px] text-slate-400 dark:text-slate-400 font-medium">
+                {{ notice.body }}
+              </span>
+            </div>
+          </div>
+          {% endfor %}
+          {% else %}
+          <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-transparent">
+            <p class="text-[#0f172a] dark:text-white font-bold text-base">No notices yet.</p>
+            <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Ask the admin to add notices.</p>
+          </div>
+          {% endif %}
+        </div>
+        <button
+          class="mt-8 font-bold text-sm text-[#0f172a] dark:text-white flex items-center gap-2 hover:gap-4 transition-all uppercase tracking-wider">
+          View All Updates <i class="fas fa-arrow-right text-[#fbbf24]"></i>
+        </button>
+      </div>
+
+      <div class="reveal-right">
+        <div
+          class="bg-white dark:bg-slate-800 p-5 rounded-[30px] shadow-2xl relative overflow-hidden group transition-colors duration-300">
+          <div
+            class="absolute -top-10 -right-10 w-32 h-32 bg-[#fbbf24] rounded-full opacity-10 group-hover:scale-150 transition-transform duration-1000">
+          </div>
+          <div class="flex items-center gap-5 mb-5">
+            <div class="relative">
+              <img src="{{ url_for('static', filename='images/Principal.jpeg') }}"
+                class="rounded-2xl w-16 h-16 object-cover border-4 border-white dark:border-slate-700 shadow-lg relative z-10"
+                alt="Principal" />
+              <div
+                class="absolute -bottom-1.5 -right-1.5 bg-green-500 w-5 h-5 rounded-full border-4 border-white dark:border-slate-700 z-20">
+              </div>
+            </div>
+            <div>
+              <h4 class="text-lg font-black text-[#0f172a] dark:text-white">Mr. Dhul Singh Patidar</h4>
+              <p class="text-[#fbbf24] font-bold uppercase text-[10px] tracking-widest">{{ principal_msg.title or 'Principal Message' }}</p>
+            </div>
+          </div>
+          <div class="text-slate-600 dark:text-slate-300 italic leading-relaxed text-[15px] mb-6">
+            {{ principal_msg.message | safe }}
+          </div>
+          <button
+            class="w-full bg-[#0f172a] dark:bg-slate-900 text-[#fbbf24] py-4 rounded-xl font-bold text-sm hover:bg-[#fbbf24] hover:text-[#0f172a] dark:hover:bg-[#fbbf24] dark:hover:text-[#0f172a] transition shadow-lg">
+            READ FULL MESSAGE
+          </button>
+        </div>
+      </div>
+  </section>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+  let slideIndex = 0;
+  const slides = document.querySelectorAll('.slide');
+  function changeSlide(n) {
+    slides[slideIndex].classList.remove('active');
+    slideIndex = (slideIndex + n + slides.length) % slides.length;
+    slides[slideIndex].classList.add('active');
+  }
+  setInterval(() => changeSlide(1), 6000);
+
+  ScrollReveal().reveal('.feature-card', { interval: 150, duration: 800, scale: 0.95 });
+
+  ScrollReveal().reveal('.reveal-up', { origin: 'bottom', distance: '50px', duration: 1000, interval: 200, reset: true });
+  ScrollReveal().reveal('.reveal-left', { origin: 'left', distance: '60px', duration: 1200, reset: true });
+  ScrollReveal().reveal('.reveal-right', { origin: 'right', distance: '60px', duration: 1200, reset: true });
+
+  // --- Premium Canvas Wave & Particle Animation ---
+  document.addEventListener("DOMContentLoaded", () => {
+    const canvas = document.getElementById("premium-bg-canvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const htmlElement = document.documentElement;
+
+    let width, height;
+    let particles = [];
+    let mouse = { x: null, y: null };
+    let time = 0;
+
+    // Theme configuration based on Tailwind 'dark' class
+    const getTheme = () => {
+      const isDark = htmlElement.classList.contains("dark");
+      return {
+        isDark,
+        particleColor: "#fbbf24", // Glowing Yellow
+        particleGlow: isDark ? "rgba(251, 191, 36, 0.8)" : "rgba(251, 191, 36, 0.5)",
+        lineColor: isDark ? "rgba(51, 65, 85, 0.6)" : "rgba(203, 213, 225, 0.8)",
+        waveColors: isDark
+          ? ["rgba(56, 189, 248, 0.05)", "rgba(168, 85, 247, 0.05)", "rgba(59, 130, 246, 0.05)"]
+          : ["rgba(148, 163, 184, 0.15)", "rgba(100, 116, 139, 0.1)", "rgba(203, 213, 225, 0.2)"]
+      };
+    };
+
+    let theme = getTheme();
+
+    // Track dark mode toggle dynamically
+    const observer = new MutationObserver(() => { theme = getTheme(); });
+    observer.observe(htmlElement, { attributes: true, attributeFilter: ["class"] });
+
+    // Track mouse safely relative to canvas
+    window.addEventListener("mousemove", (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    });
+    window.addEventListener("mouseleave", () => { mouse.x = null; mouse.y = null; });
+
+    function resize() {
+      width = canvas.offsetWidth;
+      height = canvas.offsetHeight;
+      canvas.width = width * window.devicePixelRatio;
+      canvas.height = height * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      initParticles();
+    }
+    window.addEventListener("resize", resize);
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.radius = Math.random() * 2 + 1;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        // Wrap around smoothly
+        if (this.x < 0) this.x = width;
+        if (this.x > width) this.x = 0;
+        if (this.y < 0) this.y = height;
+        if (this.y > height) this.y = 0;
+
+        // Subtle mouse interaction
+        if (mouse.x != null && mouse.y != null) {
+          const dx = mouse.x - this.x;
+          const dy = mouse.y - this.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            this.x -= dx * 0.01;
+            this.y -= dy * 0.01;
+          }
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = theme.particleColor;
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = theme.particleGlow;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      const count = width > 768 ? 50 : 25; // Responsive count
+      for (let i = 0; i < count; i++) particles.push(new Particle());
+    }
+
+    // Draw flowing sine waves at the bottom of the section
+    function drawWaves() {
+      theme.waveColors.forEach((color, i) => {
+        ctx.beginPath();
+        ctx.moveTo(0, height);
+        for (let x = 0; x <= width; x += 20) {
+          const freq = 0.002 + (i * 0.001);
+          const amp = 60 + (i * 20);
+          const y = height * 0.75 + Math.sin(x * freq + time + i) * amp;
+          ctx.lineTo(x, y);
+        }
+        ctx.lineTo(width, height);
+        ctx.fillStyle = color;
+        ctx.fill();
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      time += 0.005;
+
+      drawWaves();
+
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+
+      // Connect proximal particles with thin elegant lines
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = theme.lineColor;
+            ctx.lineWidth = 1 - (dist / 120); // Fade out dynamically
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+
+    // Initialize
+    resize();
+    animate();
+  });
+</script>
+{% endblock %}

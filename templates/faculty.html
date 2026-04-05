@@ -1,0 +1,406 @@
+{% extends 'base.html' %}
+
+{% block title %}Faculty | Friends Public School{% endblock %}
+
+{% block extra_head %}
+<style>
+  :root {
+    --primary: #0f172a;
+    --accent: #38bdf8;
+    --bg-body: #f8fafc;
+    --card-bg: rgba(255, 255, 255, 0.7);
+    --text-main: #0f172a;
+  }
+
+  body.dark-theme,
+  html.dark {
+    --bg-body: #020617;
+    --card-bg: rgba(15, 23, 42, 0.6);
+    --text-main: #f8fafc;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    transition: 0.5s;
+    font-size: 14px;
+  }
+
+  /* Education Icons Background Container */
+  .edu-container {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: var(--bg-body);
+    transition: background 0.5s;
+  }
+
+  .edu-icon {
+    position: absolute;
+    opacity: 0.1;
+    will-change: transform, opacity;
+  }
+
+  body.dark-theme .edu-icon,
+  html.dark .edu-icon {
+    opacity: 0.2;
+    /* Glowing effect in dark mode */
+    filter: drop-shadow(0 0 15px currentColor);
+  }
+
+  /* Colors based on theme */
+  .color-blue {
+    color: #38bdf8;
+  }
+
+  .color-yellow {
+    color: #fbbf24;
+  }
+
+  .color-grey {
+    color: #94a3b8;
+  }
+
+  body.dark-theme .color-blue,
+  html.dark .color-blue {
+    color: #06b6d4;
+  }
+
+  /* Cyan glow */
+  body.dark-theme .color-yellow,
+  html.dark .color-yellow {
+    color: #f59e0b;
+  }
+
+  /* Amber glow */
+  body.dark-theme .color-grey,
+  html.dark .color-grey {
+    color: #f8fafc;
+  }
+
+  /* White glow */
+
+  /* Element Instances */
+  .edu-1 {
+    font-size: 80px;
+    top: 12%;
+    left: 8%;
+    animation: eduFloat 22s infinite ease-in-out;
+  }
+
+  .edu-2 {
+    font-size: 140px;
+    top: 45%;
+    right: 12%;
+    animation: eduFloatReverse 28s infinite ease-in-out;
+  }
+
+  .edu-3 {
+    font-size: 70px;
+    bottom: 20%;
+    left: 18%;
+    animation: eduFloat 25s infinite ease-in-out;
+  }
+
+  .edu-4 {
+    font-size: 110px;
+    top: -2%;
+    right: 20%;
+    animation: eduFloatReverse 32s infinite ease-in-out;
+  }
+
+  .edu-5 {
+    font-size: 90px;
+    top: 38%;
+    left: 42%;
+    animation: eduFloat 20s infinite ease-in-out;
+  }
+
+  .edu-6 {
+    font-size: 130px;
+    bottom: 8%;
+    right: 35%;
+    animation: eduFloatReverse 26s infinite ease-in-out;
+  }
+
+  .edu-7 {
+    font-size: 100px;
+    bottom: 5%;
+    left: 5%;
+    animation: eduFloat 24s infinite ease-in-out;
+  }
+
+  .edu-8 {
+    font-size: 60px;
+    top: 25%;
+    right: 40%;
+    animation: eduFloatReverse 18s infinite ease-in-out;
+  }
+
+  /* Floating, Rotating, and Fading Animations */
+  @keyframes eduFloat {
+    0% {
+      transform: translateY(0) translateX(0) rotate(-10deg);
+      opacity: 0.05;
+    }
+
+    25% {
+      opacity: 0.15;
+    }
+
+    50% {
+      transform: translateY(-10vh) translateX(5vw) rotate(15deg);
+      opacity: 0.05;
+    }
+
+    75% {
+      opacity: 0.15;
+    }
+
+    100% {
+      transform: translateY(0) translateX(0) rotate(-10deg);
+      opacity: 0.05;
+    }
+  }
+
+  @keyframes eduFloatReverse {
+    0% {
+      transform: translateY(0) translateX(0) rotate(10deg);
+      opacity: 0.08;
+    }
+
+    25% {
+      opacity: 0.2;
+    }
+
+    50% {
+      transform: translateY(12vh) translateX(-6vw) rotate(-15deg);
+      opacity: 0.08;
+    }
+
+    75% {
+      opacity: 0.2;
+    }
+
+    100% {
+      transform: translateY(0) translateX(0) rotate(10deg);
+      opacity: 0.08;
+    }
+  }
+
+  /* Unique Floating Card Layout */
+  .faculty-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(14px);
+    border-radius: 35px;
+    padding: 30px;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    border: 1px solid rgba(56, 189, 248, 0.1);
+    text-align: center;
+    height: 100%;
+  }
+
+  body.dark-theme .faculty-card,
+  html.dark .faculty-card {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .faculty-card:hover {
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: 0 30px 60px -12px rgba(56, 189, 248, 0.2);
+    border-color: var(--accent);
+  }
+
+  .img-box {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    padding: 5px;
+    border: 2px dashed var(--accent);
+    transition: 0.5s;
+  }
+
+  .faculty-card:hover .img-box {
+    transform: rotate(15deg);
+  }
+
+  .img-box img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #e2e8f0;
+  }
+
+  /* Filter Buttons */
+  .filter-btn {
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1px;
+    transition: 0.3s;
+    color: var(--text-main);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+  }
+
+  body.dark-theme .filter-btn,
+  html.dark .filter-btn {
+    background: rgba(15, 23, 42, 0.3);
+  }
+
+  .filter-btn.active {
+    background: var(--accent);
+    color: #0f172a;
+    box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3);
+    border-color: var(--accent);
+  }
+
+  /* Navigation Glass */
+  .nav-glass {
+    background: rgba(15, 23, 42, 0.9) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Social Icons Overlay */
+  .social-icons a {
+    width: 35px;
+    height: 35px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--accent);
+    transition: 0.3s;
+  }
+
+  .social-icons a:hover {
+    background: var(--accent);
+    color: white;
+    transform: translateY(-5px);
+  }
+
+  /* Animation Classes */
+  .reveal {
+    visibility: hidden;
+  }
+
+  .show-now {
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="relative min-h-screen overflow-hidden transition-colors duration-500">
+
+  <!-- Education Icons Background Container (z-0) -->
+  <div class="edu-container">
+    <i class="fas fa-graduation-cap edu-icon color-blue edu-1"></i>
+    <i class="fas fa-book-open edu-icon color-yellow edu-2"></i>
+    <i class="fas fa-brain edu-icon color-grey edu-3"></i>
+    <i class="fas fa-pencil-alt edu-icon color-blue edu-4"></i>
+    <i class="fas fa-microscope edu-icon color-yellow edu-5"></i>
+    <i class="fas fa-laptop-code edu-icon color-grey edu-6"></i>
+    <i class="fas fa-flask edu-icon color-blue edu-7"></i>
+    <i class="fas fa-globe edu-icon color-yellow edu-8"></i>
+  </div>
+
+  <!-- Content Layer (z-10) -->
+  <div class="relative z-10 w-full h-full">
+
+    <header class="pt-44 pb-12 text-center">
+      <span class="text-[#38bdf8] font-bold tracking-[0.5em] text-[10px] uppercase mb-3 block reveal">Expert
+        Educators</span>
+      <span class="text-sm opacity-60 group-hover:opacity-100">गुरुर्ब्रह्मा गुरुर्विष्णुः गुरुर्देवो महेश्वरः। <br>
+        गुरुः साक्षात् परब्रह्म तस्मै श्रीगुरवे नमः॥</span>
+      <h1 class="text-5xl md:text-7xl font-black mb-8 reveal">
+        Our Professional <span class="text-[#38bdf8]">Faculty</span>
+      </h1>
+
+      <div class="flex flex-wrap justify-center gap-3 mt-10 reveal relative z-20">
+        <button class="filter-btn active" onclick="applyFilter('all', this)">ALL STAFF</button>
+        <button class="filter-btn" onclick="applyFilter('admin', this)">ADMIN</button>
+        <button class="filter-btn" onclick="applyFilter('science', this)">SCIENCE</button>
+        <button class="filter-btn" onclick="applyFilter('commerce', this)">COMMERCE</button>
+      </div>
+    </header>
+
+    <section class="max-w-7xl mx-auto px-6 pb-40 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 relative z-20"
+      id="faculty-grid">
+      {% for f in faculty_list %}
+      <div class="faculty-item {{ f.category }} reveal">
+        <div class="faculty-card">
+          <div class="img-box">
+            <img src="{{ f.image_url }}" alt="{{ f.name }}" />
+          </div>
+          <h3 class="text-2xl font-black">{{ f.name }}</h3>
+          <p class="text-[#38bdf8] font-bold text-[10px] tracking-widest uppercase mb-4">{{ f.title }}</p>
+          <div class="social-icons flex justify-center gap-3">
+            {% if f.category == 'science' %}
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            {% else %}
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            {% endif %}
+            <a href="#"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </section>
+
+
+
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // 1. ScrollReveal Config
+  const sr = ScrollReveal({
+    distance: '60px',
+    duration: 1000,
+    origin: 'bottom',
+    reset: true,
+  });
+  sr.reveal('.reveal', { interval: 150 });
+
+  // 3. Filter Function
+  function applyFilter(category, btn) {
+    // Update Active Button
+    document.querySelectorAll('.filter-btn').forEach((el) => el.classList.remove('active'));
+    btn.classList.add('active');
+
+    const items = document.querySelectorAll('.faculty-item');
+    items.forEach((item) => {
+      item.classList.remove('reveal');
+      item.style.transition = '0.5s ease';
+
+      if (category === 'all' || item.classList.contains(category)) {
+        item.style.display = 'block';
+        setTimeout(() => {
+          item.style.opacity = '1';
+          item.style.transform = 'scale(1)';
+          item.classList.add('show-now');
+        }, 50);
+      } else {
+        item.style.opacity = '0';
+        item.style.transform = 'scale(0.8)';
+        setTimeout(() => {
+          item.style.display = 'none';
+        }, 500);
+      }
+    });
+  }
+</script>
+{% endblock %}

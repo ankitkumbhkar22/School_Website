@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Login | Friends Public{% endblock %}
+
+{% block content %}
+  <div class="min-h-screen flex items-center justify-center px-4 py-12">
+    <div class="w-full max-w-md bg-white/90 backdrop-blur-md rounded-[28px] shadow-2xl p-6 border border-slate-100">
+      <div class="text-center mb-6">
+        <div class="mx-auto w-12 h-12 rounded-2xl bg-[#0f172a] text-[#fbbf24] flex items-center justify-center font-black text-2xl">
+          F
+        </div>
+        <h1 class="mt-3 text-xl font-black text-[#0f172a]">Admin Login</h1>
+        <p class="text-xs font-bold uppercase tracking-widest text-slate-500 mt-1">
+          Session-based authentication
+        </p>
+      </div>
+
+      <form method="POST" class="space-y-5">
+        <div>
+          <label class="text-xs font-bold uppercase tracking-widest text-slate-500">Username</label>
+          <input
+            type="text"
+            name="username"
+            required
+            class="mt-2 w-full rounded-2xl px-4 py-3 bg-slate-50 border border-slate-200 outline-none focus:border-[#0f172a]"
+            placeholder="Admin username"
+          />
+        </div>
+
+        <div>
+          <label class="text-xs font-bold uppercase tracking-widest text-slate-500">Password</label>
+          <input
+            type="password"
+            name="password"
+            required
+            class="mt-2 w-full rounded-2xl px-4 py-3 bg-slate-50 border border-slate-200 outline-none focus:border-[#0f172a]"
+            placeholder="Admin password"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-[#0f172a] text-[#fbbf24] py-3.5 rounded-2xl font-black hover:scale-[1.02] transition shadow-lg"
+        >
+          LOGIN
+        </button>
+      </form>
+
+      <p class="text-[11px] text-slate-500 mt-4 text-center font-medium">
+        Dev credentials are hardcoded in your Flask env (see `ADMIN_USERNAME` / `ADMIN_PASSWORD`).
+      </p>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}{% endblock %}
+

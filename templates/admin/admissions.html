@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Admission Enquiries | Admin{% endblock %}
+
+{% block content %}
+  <div class="min-h-screen bg-slate-900 text-white py-10 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-black">Admission Enquiries</h1>
+          <p class="text-sm text-slate-300 mt-1">View enquiries submitted from the public admission and contact forms.</p>
+        </div>
+        <div class="flex gap-3">
+          <a href="{{ url_for('admin_dashboard') }}" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-sm font-bold">
+            Dashboard
+          </a>
+          <a href="{{ url_for('admin_logout') }}" class="px-4 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 text-sm font-bold">
+            Logout
+          </a>
+        </div>
+      </div>
+
+      <div class="rounded-3xl bg-white/5 border border-white/10 p-6">
+        {% if admissions_rows and admissions_rows|length > 0 %}
+          <div class="overflow-auto rounded-2xl border border-white/10">
+            <table class="min-w-full text-sm">
+              <thead class="bg-white/5 text-slate-300">
+                <tr>
+                  <th class="text-left px-4 py-3">Date</th>
+                  <th class="text-left px-4 py-3">Student</th>
+                  <th class="text-left px-4 py-3">Contact</th>
+                  <th class="text-left px-4 py-3">Class</th>
+                  <th class="text-left px-4 py-3">Source</th>
+                  <th class="text-left px-4 py-3">Message</th>
+                  <th class="text-center px-4 py-3">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for r in admissions_rows %}
+                  <tr class="border-t border-white/5 align-top">
+                    <td class="px-4 py-3 whitespace-nowrap text-slate-200">{{ r['created_at'] }}</td>
+                    <td class="px-4 py-3">
+                      <div class="font-black">{{ r['student_name'] }}</div>
+                      {% if r['father_name'] %}
+                        <div class="text-xs text-slate-300 mt-1">Father: {{ r['father_name'] }}</div>
+                      {% endif %}
+                    </td>
+                    <td class="px-4 py-3 text-slate-200">
+                      {% if r['email'] %}
+                        <div>Email: {{ r['email'] }}</div>
+                      {% endif %}
+                      {% if r['phone'] %}
+                        <div>Phone: {{ r['phone'] }}</div>
+                      {% endif %}
+                    </td>
+                    <td class="px-4 py-3 text-slate-200">{{ r['class_seeking'] or '-' }}</td>
+                    <td class="px-4 py-3 font-bold">{{ r['source'] }}</td>
+                    <td class="px-4 py-3 text-slate-200 max-w-[320px]">
+                      {{ r['message'] or '-' }}
+                    </td>
+                    <td class="px-4 py-3 text-center align-middle relative">
+                      <form method="POST" action="{{ url_for('admin_delete_query', query_id=r['id']) }}" onsubmit="return confirm('Are you sure you want to delete this query?');" class="inline-block">
+                        <button type="submit" class="w-8 h-8 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white border border-red-500/20 transition-colors flex items-center justify-center shadow-sm" aria-label="Delete query">
+                          <i class="fas fa-trash-alt text-sm"></i>
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <p class="text-slate-300 text-sm">No enquiries found.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

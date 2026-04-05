@@ -1,0 +1,641 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Story | Friends Public H.S. School{% endblock %}
+
+{% block extra_head %}
+<style>
+  :root {
+    --primary: #0f172a;
+    --accent: #fbbf24;
+    --bg-body: #f8fafc;
+    --bg-card: #ffffff;
+    --text-main: #0f172a;
+  }
+
+  body.dark-theme,
+  html.dark {
+    --bg-body: #020617;
+    --bg-card: #0f172a;
+    --text-main: #f8fafc;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    transition: 0.4s;
+    font-size: 14px;
+  }
+
+  /* Smooth Floating Animation */
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+
+    50% {
+      transform: translateY(-15px);
+    }
+
+    100% {
+      transform: translateY(0px);
+    }
+  }
+
+  .float-anim {
+    animation: float 5s ease-in-out infinite;
+  }
+
+  /* Timeline Design */
+  .timeline-item {
+    position: relative;
+    padding-left: 30px;
+    border-left: 2px dashed var(--accent);
+    margin-bottom: 30px;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -9px;
+    top: 0;
+    width: 16px;
+    height: 16px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  /* Video Section Glow */
+  .video-box {
+    position: relative;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
+  }
+
+  .video-box::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(15, 23, 42, 0.8), transparent);
+  }
+
+  .card-glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Hexagon Gallery Styles */
+  .hex-container {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: -55px;
+    padding-bottom: 20px;
+  }
+
+  .hex-drop-shadow {
+    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+    transition: all 0.4s ease;
+  }
+
+  body.dark-theme .hex-drop-shadow,
+  html.dark .hex-drop-shadow {
+    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.5));
+  }
+
+  .hex-drop-shadow:hover {
+    filter: drop-shadow(0 15px 25px rgba(251, 191, 36, 0.3));
+    z-index: 20;
+    transform: translateY(-10px);
+  }
+
+  .hex-wrapper {
+    position: relative;
+    width: 220px;
+    height: 250px;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background-color: var(--bg-card);
+    transition: all 0.4s ease;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  body.dark-theme .hex-wrapper,
+  html.dark .hex-wrapper {
+    background-color: #1e293b;
+  }
+
+  .hex-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hex-wrapper:hover img {
+    transform: scale(1.15);
+  }
+
+  .hex-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.1));
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .hex-wrapper:hover .hex-overlay {
+    opacity: 1;
+  }
+
+  .hex-text {
+    color: #f8fafc;
+    font-weight: 800;
+    font-size: 1.15rem;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+    opacity: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .hex-wrapper:hover .hex-text {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .hex-subtext {
+    color: #fbbf24;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 8px;
+    transform: translateY(15px);
+    transition: all 0.4s ease 0.1s;
+    opacity: 0;
+  }
+
+  .hex-wrapper:hover .hex-subtext {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .hex-float-1 {
+    animation: float 5s ease-in-out infinite;
+  }
+
+  .hex-float-2 {
+    animation: float 6s ease-in-out infinite 1s;
+  }
+
+  .hex-float-3 {
+    animation: float 5.5s ease-in-out infinite 2s;
+  }
+
+  @media (max-width: 1024px) {
+    .hex-wrapper {
+      width: 180px;
+      height: 205px;
+    }
+
+    .hex-container {
+      margin-bottom: -45px;
+      gap: 12px;
+    }
+
+    .hex-text {
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hex-wrapper {
+      width: 140px;
+      height: 160px;
+    }
+
+    .hex-container {
+      margin-bottom: -35px;
+      gap: 10px;
+    }
+
+    .hex-text {
+      font-size: 0.9rem;
+    }
+
+    .hex-subtext {
+      font-size: 0.65rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hex-wrapper {
+      width: 110px;
+      height: 125px;
+    }
+
+    .hex-container {
+      margin-bottom: -28px;
+      gap: 8px;
+    }
+
+    .hex-text {
+      font-size: 0.8rem;
+    }
+
+    .hex-subtext {
+      font-size: 0.6rem;
+      display: none;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="relative min-h-screen overflow-hidden transition-colors duration-500">
+
+  <!-- Network Canvas Background Layer (z-0) -->
+  <canvas id="about-network-canvas" class="absolute top-0 left-0 w-full h-full pointer-events-none z-0"></canvas>
+
+  <!-- Content Layer (z-10) -->
+  <div class="relative z-10 w-full h-full">
+
+    <header class="relative h-[450px] flex items-center justify-center overflow-hidden">
+      <img src="https://images.unsplash.com/photo-1541339907198-e08756ebafe3?q=80&w=2070"
+        class="absolute inset-0 w-full h-full object-cover opacity-30" alt="" />
+      <div class="relative z-10 text-center px-4">
+        <span
+          class="bg-[#fbbf24]/20 text-[#fbbf24] px-4 py-1 rounded-full text-[10px] font-black tracking-[0.3em] uppercase mb-4 inline-block">Established
+          1995</span>
+        <h1 class="text-5xl md:text-7xl font-black mb-4">
+          Our <span class="text-[#fbbf24]">Journey</span>
+        </h1>
+        <p class="text-slate-400 max-w-lg mx-auto">
+          Discover the history, values, and vision that drive Friends Public H.S. School toward excellence.
+        </p>
+      </div>
+    </header>
+
+    <section class="py-16 md:py-24 max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+      <div class="reveal-left">
+        <h2 class="text-3xl font-black mb-8 leading-tight">
+          25+ Years of <br />Educational <span class="text-[#fbbf24]">Excellence</span>
+        </h2>
+        <p class="text-slate-400 mb-6 text-base italic">
+          Our Core Principle — Knowledge, Discipline, and Values.(हमारा मूल मंत्र — ज्ञान, अनुशासन और संस्कार।)
+        </p>
+        <p class="text-slate-500 mb-10 leading-relaxed">
+          Friends Public H.S. School ki shuruat 1995 mein ek chote se sapne ke saath hui. Mr. Dhul Singh Patidar sir
+          ka
+          vision tha ki Gav ke har bacche ko international standard ki shiksha mile, wo bhi sanskaaron ke saath.
+        </p>
+
+        <div class="space-y-2">
+          <div class="timeline-item">
+            <h4 class="font-black text-[#fbbf24]">1995</h4>
+            <p class="text-xs text-slate-500">Foundation and establishment of the school</p>
+          </div>
+          <div class="timeline-item">
+            <h4 class="font-black text-[#fbbf24]">2005</h4>
+            <p class="text-xs text-slate-500">Successfully upgraded to a Middle School.</p>
+          </div>
+          <div class="timeline-item">
+            <h4 class="font-black text-[#fbbf24]">2015</h4>
+            <p class="text-xs text-slate-500">Recognized as a High School, setting new academic standards.</p>
+          </div>
+          <div class="timeline-item">
+            <h4 class="font-black text-[#fbbf24]">2018</h4>
+            <p class="text-xs text-slate-500">Elevated to a Higher Secondary (H.S.) School with 100% Results.</p>
+          </div>
+          <div class="timeline-item">
+            <h4 class="font-black text-[#fbbf24]">2026</h4>
+            <p class="text-xs text-slate-500">Recognized as one of the top schools in Ashta, we celebrate a proud legacy
+              of 5000+ successful alumni while continuing our commitment to quality education and strong values.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal-right">
+        <div class="video-box group cursor-pointer">
+          <img src="https://images.unsplash.com/photo-1523050853064-dbad35009711?q=80&w=2070"
+            class="w-full h-[500px] object-cover group-hover:scale-110 transition duration-700" alt="" />
+          <div class="absolute inset-0 flex items-center justify-center z-20">
+            <div class="w-20 h-20 bg-[#fbbf24] rounded-full flex items-center justify-center shadow-2xl animate-pulse">
+              <i class="fas fa-play text-[#0f172a] ml-1"></i>
+            </div>
+          </div>
+          <div class="absolute bottom-8 left-8 z-20">
+            <h4 class="text-white font-black text-xl">Watch Campus Tour</h4>
+            <p class="text-[#fbbf24] text-xs font-bold uppercase tracking-widest">Discover Our World</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hexagon Image Gallery Section -->
+    <section class="py-20 relative z-10 w-full overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 text-center mb-16 reveal-up">
+        <h2 class="text-3xl font-black mb-4">
+          Campus <span class="text-[#fbbf24]">Life</span>
+        </h2>
+        <p class="text-slate-500 max-w-2xl mx-auto">Experience the vibrant and dynamic environment that makes our school
+          a productive home for students.</p>
+      </div>
+
+      <div class="flex flex-col items-center pb-10">
+        <!-- Row 1: 3 hexes -->
+        <div class="hex-container reveal-up" style="transition-delay: 100ms;">
+          <div class="hex-drop-shadow hex-float-1">
+            <div class="hex-wrapper">
+              <img src="static/images/about_photos/MaaSarda.jpeg" alt="Extracurricular">
+              <div class="hex-overlay">
+                <span class="hex-text">ज्ञान की देवी</span>
+                <span class="hex-subtext">सरस्वति नमस्तुभ्यं वरदे कामरूपिणि ।
+                  विद्यारम्भं करिष्यामि सिद्धिर्भवतु मे सदा ॥</span>
+              </div>
+            </div>
+          </div>
+          <div class="hex-drop-shadow hex-float-2">
+            <div class="hex-wrapper">
+              <img src="static/images/about_photos/Desh_Bakti.jpeg" alt="desh bhakti">
+              <div class="hex-overlay">
+                <span class="hex-text">देश भक्ति</span>
+                <span class="hex-subtext">Instilling pride, discipline and respect for our country.</span>
+              </div>
+            </div>
+          </div>
+          <div class="hex-drop-shadow hex-float-3">
+            <div class="hex-wrapper">
+              <img src="static/images/about_photos/Grand_Events.jpeg" alt="Students">
+              <div class="hex-overlay">
+                <span class="hex-text">Farewell Moments</span>
+                <span class="hex-subtext">Celebrating memories, friendships and a beautiful journey together.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2: 4 hexes -->
+        <div class="hex-container reveal-up" style="transition-delay: 200ms;">
+          <div class="hex-drop-shadow hex-float-2">
+            <div class="hex-wrapper">
+              <img src="static/images/about_photos/MLA_A.jpeg" alt="mla">
+              <div class="hex-overlay">
+                <span class="hex-text">Chief Guest</span>
+                <span class="hex-subtext">MLA</span>
+              </div>
+            </div>
+          </div>
+          <div class="hex-drop-shadow hex-float-1">
+            <div class="hex-wrapper">
+              <img src="static/images/about_photos/Purv_MLA.jpeg" alt="Honorable Guest">
+              <div class="hex-overlay">
+                <span class="hex-text">Honorable Guest</span>
+                <span class="hex-subtext">A moment of pride with our esteemed MLA at our institution</span>
+              </div>
+            </div>
+          </div>
+          <div class="hex-drop-shadow hex-float-3">
+            <div class="hex-wrapper">
+              <img src="static/images/about_photos/allguest.jpeg" alt="New Beginnings">
+              <div class="hex-overlay">
+                <span class="hex-text">New Beginnings</span>
+                <span class="hex-subtext">A new journey towards dreams and success</span>
+              </div>
+            </div>
+          </div>
+          <div class="hex-drop-shadow hex-float-1">
+            <div class="hex-wrapper">
+              <img src="static/images/about_photos/MLA.jpeg" alt="Our Identity">
+              <div class="hex-overlay">
+                <span class="hex-text">Our Identity</span>
+                <span class="hex-subtext">Representing our vision and values</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 3: 3 hexes -->
+        <div class="hex-container reveal-up" style="transition-delay: 300ms;">
+          <div class="hex-drop-shadow hex-float-3">
+            <div class="hex-wrapper">
+              <img src="static/images/about_photos/Dist_Topper.jpeg" alt="District Topper">
+              <div class="hex-overlay">
+                <span class="hex-text">District Topper</span>
+                <span class="hex-subtext">A moment of pride as our student achieves top rank in the district.</span>
+              </div>
+            </div>
+          </div>
+          <div class="hex-drop-shadow hex-float-1">
+            <div class="hex-wrapper">
+              <img src="static/images/about_photos/yoga.jpeg" alt="Yoga Day">
+              <div class="hex-overlay">
+                <span class="hex-text">Yoga Day</span>
+                <span class="hex-subtext">Promoting health, mindfulness and inner peace among students.</span>
+              </div>
+            </div>
+          </div>
+          <div class="hex-drop-shadow hex-float-2">
+            <div class="hex-wrapper">
+              <img src="static/images/about_photos/Dev_Baba.jpeg" alt="Our School Family">
+              <div class="hex-overlay">
+                <span class="hex-text">Our School Family</span>
+                <span class="hex-subtext">A bond of knowledge, respect and shared success</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-24 bg-slate-900/50 backdrop-blur-sm relative border-y border-white/5">
+      <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl font-black">
+            Our Core <span class="text-[#fbbf24]">Values</span>
+          </h2>
+          <p class="text-slate-500 mt-2">Principles that define every student at Friends Public.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div
+            class="p-10 rounded-[35px] border border-white/5 bg-white/5 hover:bg-[#d1c928] hover:text-[#0f172a] transition-all duration-500 group reveal-up">
+            <i class="fas fa-heart text-3xl mb-6 text-[#fbbf24] group-hover:text-[#0f172a]"></i>
+            <h4 class="text-xl font-black mb-4">Integrity</h4>
+            <p class="text-sm opacity-60 group-hover:opacity-100">Our students learn to walk on the path of truth and
+              honesty</p>
+          </div>
+          <div
+            class="p-10 rounded-[35px] border border-white/5 bg-white/5 hover:bg-[#488a78] hover:text-[#0f172a] transition-all duration-500 group reveal-up"
+            style="transition-delay: 200ms;">
+            <i class="fas fa-lightbulb text-3xl mb-6 text-[#fbbf24] group-hover:text-[#0f172a]"></i>
+            <h4 class="text-xl font-black mb-4">Innovation</h4>
+            <p class="text-sm opacity-60 group-hover:opacity-100">Connecting with technological advancements and
+              thinking fresh is who we are</p>
+          </div>
+          <div
+            class="p-10 rounded-[35px] border border-white/5 bg-white/5 hover:bg-[#d1c928] hover:text-[#0f172a] transition-all duration-500 group reveal-up"
+            style="transition-delay: 400ms;">
+            <i class="fas fa-users text-3xl mb-6 text-[#fbbf24] group-hover:text-[#0f172a]"></i>
+            <h4 class="text-xl font-black mb-4">Community</h4>
+            <p class="text-sm opacity-60 group-hover:opacity-100">Moving forward together like a family is our strength.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 relative z-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
+        <div class="text-center float-anim">
+          <h3 class="text-3xl sm:text-4xl font-black text-[#fbbf24]">15k+</h3>
+          <p class="text-[10px] font-bold uppercase tracking-widest opacity-40">Alumni Success</p>
+        </div>
+        <div class="text-center float-anim" style="animation-delay: 1s;">
+          <h3 class="text-3xl sm:text-4xl font-black text-[#fbbf24]">50+</h3>
+          <p class="text-[10px] font-bold uppercase tracking-widest opacity-40">Qualified Staff</p>
+        </div>
+        <div class="text-center float-anim" style="animation-delay: 2s;">
+          <h3 class="text-3xl sm:text-4xl font-black text-[#fbbf24]">100%</h3>
+          <p class="text-[10px] font-bold uppercase tracking-widest opacity-40">Safe Campus</p>
+        </div>
+        <div class="text-center float-anim" style="animation-delay: 3s;">
+          <h3 class="text-3xl sm:text-4xl font-black text-[#fbbf24]">Awarded</h3>
+          <p class="text-[10px] font-bold uppercase tracking-widest opacity-40">Best School</p>
+        </div>
+      </div>
+    </section>
+
+    
+
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // About Page Dotted Network Animation
+  const canvas = document.getElementById('about-network-canvas');
+  const ctx = canvas.getContext('2d');
+
+  let width, height;
+  let particles = [];
+
+  // Theme configuration
+  let isDark = document.body.classList.contains('dark-theme') || document.documentElement.classList.contains('dark');
+
+  const config = {
+    maxDistance: 160,
+    baseSpeed: 0.25
+  };
+
+  function resize() {
+    width = canvas.width = canvas.parentElement.offsetWidth;
+    height = canvas.height = canvas.parentElement.offsetHeight;
+  }
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.vx = (Math.random() - 0.5) * config.baseSpeed;
+      this.vy = (Math.random() - 0.5) * config.baseSpeed;
+      this.radius = Math.random() * 2 + 0.8;
+    }
+
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+
+      if (this.x < 0 || this.x > width) this.vx = -this.vx;
+      if (this.y < 0 || this.y > height) this.vy = -this.vy;
+    }
+
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+
+      if (isDark) {
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = 'rgba(6, 182, 212, 0.8)';
+        ctx.fillStyle = 'rgba(6, 182, 212, 0.9)';
+      } else {
+        ctx.shadowBlur = 3;
+        ctx.shadowColor = 'rgba(100, 116, 139, 0.3)';
+        ctx.fillStyle = 'rgba(100, 116, 139, 0.6)';
+      }
+
+      ctx.fill();
+      ctx.shadowBlur = 0; // Reset for lines to maintain performance
+    }
+  }
+
+  function init() {
+    resize();
+    particles = [];
+    const density = width < 768 ? 20000 : 12000;
+    const count = Math.min(Math.floor((width * height) / density), 250);
+    for (let i = 0; i < count; i++) {
+      particles.push(new Particle());
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update();
+      particles[i].draw();
+
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < config.maxDistance) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+
+          const opacity = 1 - (distance / config.maxDistance);
+          if (isDark) {
+            ctx.strokeStyle = `rgba(6, 182, 212, ${opacity * 0.3})`;
+          } else {
+            ctx.strokeStyle = `rgba(135, 206, 235, ${opacity * 0.4})`;
+          }
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(animate);
+  }
+
+  window.addEventListener('resize', () => {
+    clearTimeout(window.resizeTimer);
+    window.resizeTimer = setTimeout(init, 250);
+  });
+
+  const observer = new MutationObserver(() => {
+    isDark = document.body.classList.contains('dark-theme') || document.documentElement.classList.contains('dark');
+  });
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+  init();
+  animate();
+
+  // Animations
+  ScrollReveal().reveal('.reveal-left', { origin: 'left', distance: '60px', duration: 1200 });
+  ScrollReveal().reveal('.reveal-right', { origin: 'right', distance: '60px', duration: 1200 });
+  ScrollReveal().reveal('.reveal-up', { origin: 'bottom', distance: '60px', duration: 1000, interval: 200, reset: true });
+</script>
+{% endblock %}

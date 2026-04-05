@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Gallery | Admin{% endblock %}
+
+{% block content %}
+  <div class="min-h-screen bg-slate-900 text-white py-10 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-black">Gallery</h1>
+          <p class="text-sm text-slate-300 mt-1">Upload images to display on the public gallery page.</p>
+        </div>
+        <div class="flex gap-3">
+          <a href="{{ url_for('admin_dashboard') }}" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-sm font-bold">
+            Dashboard
+          </a>
+          <a href="{{ url_for('admin_logout') }}" class="px-4 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 text-sm font-bold">
+            Logout
+          </a>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div class="lg:col-span-2 rounded-3xl bg-white/5 border border-white/10 p-6">
+          <h2 class="text-lg font-black mb-2">Upload Image</h2>
+          <form method="POST" action="{{ url_for('admin_gallery_upload') }}" enctype="multipart/form-data" class="space-y-4">
+            <div>
+              <label class="text-xs font-bold uppercase tracking-widest text-slate-300">Category</label>
+              <select name="category" class="mt-2 w-full rounded-2xl px-4 py-3 bg-slate-950/30 border border-white/10 outline-none focus:border-[#fbbf24]" required>
+                <option value="">Select...</option>
+                {% for c in gallery_categories %}
+                  <option value="{{ c }}">{{ c }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div>
+              <label class="text-xs font-bold uppercase tracking-widest text-slate-300">Alt Text</label>
+              <input name="alt_text" class="mt-2 w-full rounded-2xl px-4 py-3 bg-slate-950/30 border border-white/10 outline-none focus:border-[#fbbf24]" placeholder="Optional description" />
+            </div>
+
+            <div>
+              <label class="text-xs font-bold uppercase tracking-widest text-slate-300">Caption (optional)</label>
+              <input name="caption" class="mt-2 w-full rounded-2xl px-4 py-3 bg-slate-950/30 border border-white/10 outline-none focus:border-[#fbbf24]" placeholder="Shown on hover if provided" />
+            </div>
+
+            <div>
+              <label class="text-xs font-bold uppercase tracking-widest text-slate-300">Image</label>
+              <input type="file" name="image" accept="image/*" class="mt-2 w-full text-sm file:mr-4 file:py-2 file:px-3 file:rounded-2xl file:border-0 file:text-sm file:font-bold file:bg-[#fbbf24] file:text-[#0f172a]" required />
+            </div>
+
+            <button type="submit" class="w-full bg-[#fbbf24] text-[#0f172a] py-3 rounded-2xl font-black hover:scale-[1.01] transition">
+              Upload
+            </button>
+          </form>
+        </div>
+
+        <div class="lg:col-span-3 rounded-3xl bg-white/5 border border-white/10 p-6">
+          <h2 class="text-lg font-black mb-4">Uploaded Images</h2>
+          {% if gallery_rows and gallery_rows|length > 0 %}
+            <div class="overflow-auto rounded-2xl border border-white/10">
+              <table class="min-w-full text-sm">
+                <thead class="bg-white/5 text-slate-300">
+                  <tr>
+                    <th class="text-left px-4 py-3">Preview</th>
+                    <th class="text-left px-4 py-3">Category</th>
+                    <th class="text-left px-4 py-3">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for r in gallery_rows %}
+                    <tr class="border-t border-white/5">
+                      <td class="px-4 py-3">
+                        <img
+                          src="{{ url_for('static', filename='images/uploads/' ~ r['image_filename']) }}"
+                          alt=""
+                          class="w-24 h-16 object-cover rounded-xl border border-white/10"
+                        />
+                      </td>
+                      <td class="px-4 py-3 font-bold">{{ r['category'] }}</td>
+                      <td class="px-4 py-3">
+                        <form method="POST" action="{{ url_for('admin_gallery_delete', image_id=r['id']) }}" onsubmit="return confirm('Delete this image?')">
+                          <button type="submit" class="px-3 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 text-xs font-bold">
+                            Delete
+                          </button>
+                        </form>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% else %}
+            <p class="text-slate-300 text-sm">No gallery images uploaded yet.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

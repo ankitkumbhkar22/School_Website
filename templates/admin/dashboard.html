@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard | Friends Public{% endblock %}
+
+{% block content %}
+  <div class="min-h-screen bg-slate-900 text-white py-10 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-black">Admin Dashboard</h1>
+          <p class="text-sm text-slate-300 mt-1">Manage school content and view enquiries.</p>
+        </div>
+        <div class="flex gap-3">
+          <a href="{{ url_for('admin_dashboard') }}" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-sm font-bold">
+            Dashboard
+          </a>
+          <a href="{{ url_for('admin_logout') }}" class="px-4 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 text-sm font-bold">
+            Logout
+          </a>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="p-5 rounded-3xl bg-white/5 border border-white/10">
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-300">Notices</div>
+          <div class="mt-2 text-3xl font-black text-[#fbbf24]">{{ notices_count }}</div>
+        </div>
+        <div class="p-5 rounded-3xl bg-white/5 border border-white/10">
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-300">Gallery Images</div>
+          <div class="mt-2 text-3xl font-black text-[#fbbf24]">{{ gallery_count }}</div>
+        </div>
+        <div class="p-5 rounded-3xl bg-white/5 border border-white/10">
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-300">Faculty</div>
+          <div class="mt-2 text-3xl font-black text-[#fbbf24]">{{ faculty_count }}</div>
+        </div>
+        <div class="p-5 rounded-3xl bg-white/5 border border-white/10">
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-300">Enquiries</div>
+          <div class="mt-2 text-3xl font-black text-[#fbbf24]">{{ admissions_count }}</div>
+        </div>
+        <div class="p-5 rounded-3xl bg-white/5 border border-white/10">
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-300">Popup Banners</div>
+          <div class="mt-2 text-3xl font-black text-[#fbbf24]">{{ popups_count }}</div>
+        </div>
+      </div>
+
+      <div class="rounded-3xl bg-white/5 border border-white/10 p-6">
+        <h2 class="text-lg font-black">Next steps</h2>
+        <p class="text-sm text-slate-300 mt-2">
+          Use the links below to manage notices, gallery images, faculty profiles, and view admissions enquiries.
+        </p>
+
+        <div class="flex flex-wrap gap-3 mt-4">
+          <a href="{{ url_for('admin_notices') }}" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-sm font-bold">
+            Manage Notices
+          </a>
+          <a href="{{ url_for('admin_gallery') }}" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-sm font-bold">
+            Manage Gallery
+          </a>
+          <a href="{{ url_for('admin_faculty') }}" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-sm font-bold">
+            Manage Faculty
+          </a>
+          <a href="{{ url_for('admin_admissions') }}" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-sm font-bold">
+            View Enquiries
+          </a>
+          <a href="{{ url_for('admin_popups') }}" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-sm font-bold">
+            Manage Popups
+          </a>
+          <a href="{{ url_for('admin_principal_message') }}" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-sm font-bold">
+            Edit Principal Message
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

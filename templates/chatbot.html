@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School WhatsApp Chatbot</title>
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Adding a modern font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="chat-avatar">🏫</div>
+            <div class="chat-header-info">
+                <h2>Friends Public School Assistant</h2>
+                <p>online</p>
+            </div>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot">Hello! How can I help you?<br>नमस्ते! मैं आपकी क्या मदद कर सकता हूँ?
+            </div>
+            <div class="loader" id="loader">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="user-input" placeholder="Type a message"
+                onkeypress="handleKeyPress(event)" autocomplete="off">
+            <button class="send-button" onclick="sendMessage()" id="send-btn">
+                <svg class="send-icon" viewBox="0 0 24 24">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const messagesContainer = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const loader = document.getElementById('loader');
+        const sendBtn = document.getElementById('send-btn');
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', sender);
+            messageDiv.textContent = text;
+
+            // Insert right before loader
+            messagesContainer.insertBefore(messageDiv, loader);
+
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            // Add user message
+            addMessage(text, 'user');
+
+            // Clear input
+            userInput.value = '';
+            userInput.disabled = true;
+            sendBtn.disabled = true;
+
+            // Show loader
+            loader.style.display = 'block';
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            try {
+                const response = await fetch('/get_response', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: text })
+                });
+
+                const data = await response.json();
+
+                // Hide loader
+                loader.style.display = 'none';
+                userInput.disabled = false;
+                sendBtn.disabled = false;
+                userInput.focus();
+
+                // Add bot response
+                addMessage(data.response, 'bot');
+            } catch (error) {
+                console.error('Error:', error);
+                loader.style.display = 'none';
+                userInput.disabled = false;
+                sendBtn.disabled = false;
+                addMessage('Sorry, something went wrong. Please try again.', 'bot');
+            }
+        }
+    </script>
+
+</body>
+
+</html>

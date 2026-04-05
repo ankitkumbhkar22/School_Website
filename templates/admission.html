@@ -1,0 +1,305 @@
+{% extends 'base.html' %}
+
+{% block title %}Admissions 2026-27 | Friends Public School{% endblock %}
+
+{% block extra_head %}
+<style>
+  :root {
+    --primary: #0f172a;
+    --accent: #38bdf8;
+    --bg-body: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #0f172a;
+  }
+
+  body.dark-theme {
+    --bg-body: #020617;
+    --card-bg: #0f172a;
+    --text-main: #ffffff;
+    color-scheme: dark;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    transition: 0.5s;
+    font-size: 14px;
+  }
+
+  /* Step Process Timeline */
+  .step-item {
+    position: relative;
+    padding-left: 45px;
+    margin-bottom: 40px;
+  }
+
+  .step-item::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 30px;
+    width: 2px;
+    height: 100%;
+    background: rgba(56, 189, 248, 0.2);
+    z-index: 1;
+  }
+
+  .step-item:last-child::before {
+    display: none;
+  }
+
+  .step-number {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
+    color: #0f172a;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    z-index: 2;
+    box-shadow: 0 4px 10px rgba(56, 189, 248, 0.3);
+  }
+
+  /* Inquiry Form Styling */
+  .input-field {
+    background: rgba(56, 189, 248, 0.05);
+    border: 1px solid rgba(56, 189, 248, 0.1);
+    padding: 12px 20px;
+    border-radius: 12px;
+    width: 100%;
+    outline: none;
+    transition: 0.3s;
+    color: var(--text-main);
+  }
+
+  .input-field:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+  }
+
+  /* Dark mode select options visibility fix */
+  select option {
+    background-color: var(--card-bg);
+    color: var(--text-main);
+  }
+
+  .form-card {
+    background: var(--card-bg);
+    border-radius: 35px;
+    padding: 40px;
+    box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.1);
+  }
+
+  .nav-glass {
+    background: rgba(15, 23, 42, 0.9) !important;
+    backdrop-filter: blur(12px);
+  }
+
+  /* Prevent flicker before ScrollReveal */
+  .reveal,
+  .step-reveal {
+    visibility: hidden;
+  }
+
+  /* Form Validation Styles */
+  .was-validated .input-field:invalid {
+    border-color: #ef4444;
+  }
+  
+  .was-validated .input-field:invalid:focus {
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+  }
+
+  .invalid-feedback {
+    display: none;
+    color: #ef4444;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 6px;
+    margin-left: 12px;
+  }
+
+  .was-validated .input-field:invalid ~ .invalid-feedback {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<header class="pt-48 pb-20 text-center px-4 bg-gradient-to-b from-slate-900/50 to-transparent">
+  <span class="text-[#38bdf8] font-bold tracking-[0.5em] text-[10px] uppercase mb-3 block reveal">Enrolling Now</span>
+  <h1 class="text-5xl md:text-7xl font-black mb-6 reveal">
+    Join Our <span class="text-[#38bdf8]">Community</span>
+  </h1>
+  <p class="text-slate-400 max-w-xl mx-auto text-sm reveal">Session 2026-27 admission process is now open for Nursery to
+    Class 12th.</p>
+</header>
+
+<section class="max-w-7xl mx-auto px-6 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+  <div>
+    <h2 class="text-3xl font-black mb-10 reveal">
+      Admission <span class="text-[#38bdf8]">Process</span>
+    </h2>
+
+    <div class="step-item step-reveal">
+      <div class="step-number">1</div>
+      <h4 class="font-bold text-lg mb-1">Online/Offline Inquiry</h4>
+      <p class="text-slate-500 text-sm">Fill the inquiry form or visit the school office for a prospectus.</p>
+    </div>
+    <div class="step-item step-reveal">
+      <div class="step-number">2</div>
+      <h4 class="font-bold text-lg mb-1">Campus Visit & Interaction</h4>
+      <p class="text-slate-500 text-sm">Meet our counselors and take a tour of our smart classrooms and labs.</p>
+    </div>
+    <div class="step-item step-reveal">
+      <div class="step-number">3</div>
+      <h4 class="font-bold text-lg mb-1">Test</h4>
+      <p class="text-slate-500 text-sm">A small assessment to understand the child's academic foundation.</p>
+    </div>
+    <div class="step-item step-reveal">
+      <div class="step-number">4</div>
+      <h4 class="font-bold text-lg mb-1">Final Documentation</h4>
+      <p class="text-slate-500 text-sm">Submit Transfer Certificate (TC), Marksheets, and Aadhar details to secure the
+        seat.</p>
+    </div>
+
+    <div class="mt-10 p-8 rounded-3xl bg-[#38bdf8]/10 border border-[#38bdf8]/20 reveal">
+      <h5 class="font-bold text-[#38bdf8] flex items-center gap-3 mb-2">
+        <i class="fas fa-info-circle"></i> Required Documents
+      </h5>
+      <ul class="text-xs space-y-2 text-slate-500 font-medium">
+        <li>• Birth Certificate (Original + Photocopy)</li>
+        <li>• 4 Passport size Photographs</li>
+        <li>• Previous School Report Card & TC</li>
+        <li>• Parents Identity Proof</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="reveal">
+    <div class="form-card">
+      <h3 class="text-2xl font-black mb-2">
+        Registration <span class="text-[#38bdf8]">Enquiry</span>
+      </h3>
+      <p class="text-slate-500 text-xs mb-8 uppercase tracking-widest font-bold">Step into the future</p>
+
+      <form class="space-y-5 needs-validation" novalidate method="POST" action="{{ url_for('admission') }}">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="relative">
+            <input type="text" name="student_name" placeholder="Student's Name" class="input-field" required />
+            <div class="invalid-feedback">Student's name is required.</div>
+          </div>
+          <div class="relative">
+            <input type="text" name="father_name" placeholder="Father's Name" class="input-field" required />
+            <div class="invalid-feedback">Father's name is required.</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="relative">
+            <input type="email" name="email" placeholder="example@gmail.com" class="input-field" required />
+            <div class="invalid-feedback">A valid email is required.</div>
+          </div>
+          <div class="relative">
+            <input type="tel" name="phone" placeholder="Enter 10-digit number" pattern="[0-9]{10}" maxlength="10" class="input-field" required />
+            <div class="invalid-feedback">A valid 10-digit phone number is required.</div>
+          </div>
+        </div>
+
+        <div class="relative">
+          <select name="class_seeking" class="input-field appearance-none cursor-pointer" required>
+            <option value="">Seeking Admission for Class...</option>
+            <option>Nursery - UKG</option>
+            <option>Class 1 - 5</option>
+            <option>Class 6 - 10</option>
+            <option>Class 11 - 12</option>
+          </select>
+          <i
+            class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></i>
+          <div class="invalid-feedback">Please select a class.</div>
+        </div>
+
+        <div class="relative">
+          <textarea name="message" placeholder="Tell us more about your child..." class="input-field h-32" required></textarea>
+          <div class="invalid-feedback">Please enter a short message or detail.</div>
+        </div>
+
+        <button type="submit"
+          class="w-full bg-[#38bdf8] text-[#0f172a] py-4 rounded-2xl font-black hover:scale-105 transition shadow-lg shadow-sky-900/40">
+          SUBMIT ENQUIRY <i class="fas fa-paper-plane ml-2"></i>
+        </button>
+      </form>
+
+      <p class="text-center text-[10px] text-slate-500 mt-6 font-bold uppercase tracking-widest">
+        Our team will contact you within 24 hours.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="py-24 bg-slate-900/10">
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+    <div class="reveal">
+      <div class="text-3xl font-black text-[#38bdf8] mb-1">Scholarships</div>
+      <p class="text-xs uppercase font-bold opacity-40">Available for meritorious students</p>
+    </div>
+    <div class="reveal">
+      <div class="text-3xl font-black text-[#38bdf8] mb-1">100% Transparency</div>
+      <p class="text-xs uppercase font-bold opacity-40">No hidden donation fees</p>
+    </div>
+    <div class="reveal">
+      <div class="text-3xl font-black text-[#38bdf8] mb-1">Trial Classes</div>
+      <p class="text-xs uppercase font-bold opacity-40">Free 3-day demo for new students</p>
+    </div>
+  </div>
+</section>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // Main Reveal Configuration
+  const sr = ScrollReveal({
+    distance: '60px',
+    duration: 1000,
+    reset: true,
+  });
+
+  sr.reveal('.reveal', { origin: 'bottom', interval: 150 });
+  sr.reveal('.step-reveal', {
+    origin: 'left',
+    distance: '100px',
+    interval: 250,
+    delay: 200,
+    easing: 'cubic-bezier(0.5, 0, 0, 1)',
+  });
+
+  // Form Validation Logic
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('.needs-validation');
+    if (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    }
+  });
+</script>
+{% endblock %}
